@@ -17,7 +17,7 @@ router.get('/test-me', function (req, res) {
 });
 
 router.get('/test-me1', function (req, res) {
-    res.send('My second ever api!' + date.printDate + date.printM)
+    res.send('My second ever api!' + "Date:" +  date.printDate + "Month: " + date.printM + date.printBatch)
 });
 
 router.get('/test-me2', function (req, res) {
