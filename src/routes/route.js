@@ -2,6 +2,7 @@ const express = require('express');
 const externalModule = require('./logger')
 const wel = require('../logger/logger.js')
 const date = require('../util/helper.js')
+const validator = require('../validator/formatter.js')
 
 
 
@@ -12,8 +13,11 @@ router.get('/test-me', function (req, res) {
     console.log('The constant in logger route has a value '+externalModule.endpoint)
     console.log('The current batch is '+externalModule.batch)
     externalModule.log()
+
+    const result = wel.welcome + "Next :" + 'My second ever api!' + "Date:" +  date.printDate + "Month: " + date.printM + date.printBatch + 
+    validator.trimS + validator.changeToUp + validator.changeToLw ;
     
-    res.send(wel.welcome)
+    res.send(result)
 });
 
 router.get('/test-me1', function (req, res) {
