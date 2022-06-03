@@ -1,9 +1,6 @@
 const express = require('express');
-const externalModule = require('./logger')
-const wel = require('../logger/logger.js')
-const date = require('../util/helper.js')
-const validator = require('../validator/formatter.js');
 const { json } = require('express/lib/response');
+const movies = ['Stevejobs', 'kgf2', 'scam 1992', 'Rocky handsome', 'Tamasha'];
 
 
 
@@ -12,30 +9,69 @@ const router = express.Router();
 
 router.get('/test-me', function (req, res) {
   
-    externalModule.log()
-
-    const result = wel.welcome + "Next :" + 'My second ever api!' + "Date:" +  date.printDate + "Month: " + date.printM + date.printBatch + 
-    validator.trimS + validator.changeToUp + validator.changeToLw ;
+    
     
     res.send(result)
 });
 
-router.get('/test-me1', function (req, res) {
-    res.send('My second ever api!' + "Date:" +  date.printDate + "Month: " + date.printM + date.printBatch)
+router.get('/movies', function (req, res) {
+    
+
+    res.send(movies)
 });
 
-router.get('/test-me2/:name', function (req, res) {
-    let name = req.params.name
-    res.send('My third name' + name)
+router.get('/movies/:indexNum', function (req, res) {
+    let num = req.params.indexNum;
+    if(num > movies.length) {
+      res.send('enterd index number is not available')
+
+    }
+    else {
+    let name = movies[num];
+    res.send('My Movie name =' + name)
+    }
 });
 
-router.get('/test-me3', function (req, res) {
-    let box = ['debu', 'subha']
-    res.send('My 4th api!' + JSON.stringify(req.query))
+router.get('/all-movies', function (req, res) {
+    let box = [ 
+    {
+     'id': 1,
+     'name': "Rocky handsome",
+    }, 
+    {
+        'id': 2,
+        'name': "steve",
+    },
+    {
+        'id': 3,
+        'name': "kgf",
+    },
+       ]
+       
+    res.send('My 4th api!' + JSON.stringify(box))
 });
 
-router.get('/test-me4', function (req, res) {
-    res.send('My last api!')
+router.get('/get-movie/:id', function (req, res) {
+    let box = [ 
+        {
+         'id': 1,
+         'name': "Rocky handsome",
+        }, 
+        {
+            'id': 2,
+            'name': "steve",
+        },
+        {
+            'id': 3,
+            'name': "kgf",
+        },
+           ]
+
+    let i = parseInt(req.params.id);
+    let name = box.filter(x => x.id === i);
+    
+    //let movie = name[0]['name']
+    res.send('My last api! gert movie by id = ' + name[0]['name'])
 });
 
 module.exports = router;
