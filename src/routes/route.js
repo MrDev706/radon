@@ -8,12 +8,7 @@ const ucontroller = require('../controller/controller')
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-  
-    
-    
-    res.send(result)
-});
+router.get('/getAllUser', ucontroller.allUser);
 
 router.post('/create-user', ucontroller.createUser)
 
