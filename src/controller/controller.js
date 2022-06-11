@@ -1,6 +1,8 @@
 const author = require("../models/author");
-const Author = require("../models/author");
+
 const Books = require("../models/newBook");
+
+const Publisher = require("../models/newPublisher");
 
 
 
@@ -8,36 +10,43 @@ const Books = require("../models/newBook");
 
 const createAuthor =  async function (req, res) {
     let data = req.body
-    let newData = await Author.create(data)
+    let newData = await author.create(data)
+   res.send({msg: newData})
+};
+const createPublisher =  async function (req, res) {
+    let data = req.body
+    let newData = await Publisher.create(data)
    res.send({msg: newData})
 };
 
 const allUser = async function(req, res){ 
-    let data = await Author.find()
+    let data = await author.find()
 
     res.send(data)
 }
 
 const createBook = async function(req, res){
-     let data = req.body
-     let author = Author.findOne({author_id: data.author_id})
-     if(author){
-        let savedData = await Books.create(data)
-        res.send(savedData)
+    if(!req.body.publisher || !req.body.author){
+       res.send("eror: pb and author")
 
-     }
+    }else {
+     let data = await Books.create(req.body)
+     res.send(data)
+
     }
-const getById = async function(req, res){
-     let data = await Author.findOne({author_Name: "Chetan Bhagat"}).select({author_id: 0})
-     let list = await Books.find({author_id: data}).select({name: 0})
-     res.send(list)
-}
+    }
+  
+     
+    
+
 const updatePrice = async function(req, res){
       let author = await Books.findOneAndUpdate({name: "Two states"}, {price: 1000})
       res.send(author)
 }
+
+
 const bookList = async function(req, res){
-      let list = await Books.find()
+      let list = await Books.find().populate('author').populate('publisher').select({rating: 0})
       res.send(list)
 
 }
@@ -56,7 +65,8 @@ const authorByAge = async function(req, res){
 module.exports.createAuthor = createAuthor
 module.exports.allAuthor = allUser
 module.exports.createBook = createBook
-module.exports.getById = getById
+
 module.exports.updatePrice = updatePrice
 module.exports.bookList = bookList
 module.exports.authorByAge = authorByAge
+module.exports.createPublisher  = createPublisher
